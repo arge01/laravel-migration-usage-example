@@ -64,23 +64,6 @@
         </style>
     </head>
     <body>
-        <form action="{{route('student.student_notes', '46972113850')}}" method="POST">
-          <div class="form-group">
-            <label>Vize</label>
-            <input type="text" class="form-control" name="exam">
-          </div>
 
-          <div class="form-group">
-            <label>Final</label>
-            <input type="text" class="form-control" name="final">
-          </div>
-
-          <div class="form-group">
-            <label>Ödev</label>
-            <input type="text" class="form-control" name="task">
-          </div>
-          
-          <button type="submit" class="btn btn-primary">Gönder</button>
-        </form>
     </body>
 </html>

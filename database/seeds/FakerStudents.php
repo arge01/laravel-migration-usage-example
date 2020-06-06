@@ -8,11 +8,12 @@ class FakerStudents extends Seeder
     /**
      * Run the database seeds.
      *
+     * @param Faker $faker
      * @return void
      */
     public function run(Faker $faker)
     {
-        DB::table('students')->truncate();
+        //DB::table('students')->truncate();
 
         for ( $i = 0; $i < 45; $i++ ) {
             $random = substr(str_shuffle("10123456789"), 0, 12);
@@ -20,7 +21,7 @@ class FakerStudents extends Seeder
             DB::table('students')->insert([
                 'name'=> $faker->name,
                 'statu' => 1,
-                'tc_no' => $random, 
+                'tc_no' => $random,
                 'no' => $random
             ]);
         }

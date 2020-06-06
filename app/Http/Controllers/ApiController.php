@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Work;
 use Illuminate\Http\Request;
 use App\Model\Student;
 use App\Model\StudentNote;
@@ -47,7 +48,7 @@ class ApiController extends Controller
 
 	           	if ( $data["average"] >= 45 )
 	           		$data["case"] = 1;
-	           	else 
+	           	else
 	           		$data["case"] = 0;
 
 	           	$create = StudentNote::create($data);
@@ -72,5 +73,10 @@ class ApiController extends Controller
     	}
     	else
     		return response()->json("No data");
+    }
+
+    public function allWorks() {
+        $works = Work::all();
+        return response()->json($works);
     }
 }
