@@ -16,16 +16,15 @@ class FacerStudentCard extends Seeder
     	$students = Student::all();
 
     	foreach ($students as $key => $student) {
-
     		DB::table('student_cards')->insert([
-	            "student_id" => $student->id, 
-	            "tc_no" => $student->tc_no, 
-	            "no" => $student->no, 
+	            "student_id" => $student->id,
+	            "tc_no" => $student->tc_no,
+	            "no" => $student->no,
 	            "name" => $student->name,
 	            "address" => $faker->address,
 	            "email" => $faker->unique()->safeEmail
 	        ]);
-    		
+
     	}
     }
 }

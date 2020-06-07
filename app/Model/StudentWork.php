@@ -9,6 +9,6 @@ class StudentWork extends Model
     protected $table = "student_works";
 
     protected $fillable = [
-        "work_no", "student_no"
+        "work_no", "student_no", "student_work"
     ];
 }

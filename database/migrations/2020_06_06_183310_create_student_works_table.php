@@ -15,8 +15,9 @@ class CreateStudentWorksTable extends Migration
     {
         Schema::create('student_works', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer("work_id");
-            $table->integer("student_no");
+            $table->string("student_work")->unique();
+            $table->string("work_no");
+            $table->string("student_no");
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
