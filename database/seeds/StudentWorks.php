@@ -15,7 +15,7 @@ class StudentWorks extends Seeder
     public function run(Faker $faker)
     {
         $student_works = StudentWork::find(1);
-        $insert = DB::table("student_notes")->insert([
+        $insert = [
             "student_no" => $student_works->student_no,
             "student_notes_no" => $faker->creditCardNumber,
             "exam"=>100,
@@ -24,9 +24,8 @@ class StudentWorks extends Seeder
             "task"=>null,
             "case"=>true,
             "work_no"=>$student_works->work_no
-        ]);
-
+        ];
         print_r($insert);
-
+        DB::table("student_notes")->insert($insert);
     }
 }
