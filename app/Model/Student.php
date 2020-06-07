@@ -20,4 +20,8 @@ class Student extends Model
     public function student_notes() {
     	return $this->hasMany('App\Model\StudentNote', 'no', 'no');
     }
+
+    public function student_works() {
+        return $this->hasMany('App\Model\StudentWork', 'student_no', 'no');
+    }
 }

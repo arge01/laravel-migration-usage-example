@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(FakerStudents::class);
         // $this->call(FacerStudentCard::class);
         // $this->call(FakerWork::class);
-        //$this->call(FakerStudentWorks::class);
+        // $this->call(FakerStudentWorks::class);
+        $this->call(StudentWorks::class);
     }
 }

@@ -19,6 +19,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => '/student', 'as' => 'student.'], function() {
     Route::get('/all', 'ApiController@allStudents')->name('all');
-    Route::get('/profil/{student_no}', 'ApiController@studentCard')->name('student_card');
+    Route::get('/profile/{student_no}', 'ApiController@studentCard')->name('student_card');
+    Route::get('/profile/{student_no}/works', 'ApiController@studentWorks')->name('student_works');
+    Route::get('/profile/{student_no}/work/{work_no}', 'ApiController@studentWorkNote')->name('student_note');
     Route::match(['get', 'post'], '/note/{student_no}', 'ApiController@studentNote')->name('student_notes');
+});
+
+Route::group(['prefix' => '/work', 'as' => 'work.'], function() {
+    Route::get('/all', 'ApiController@allWorks')->name('all');
 });

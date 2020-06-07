@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\StudentWork;
 use App\Model\Work;
 use Illuminate\Http\Request;
 use App\Model\Student;
@@ -22,6 +23,30 @@ class ApiController extends Controller
     		return response()->json($student_card);
     	else
     		return response()->json("No data");
+    }
+
+    public function studentWorks($student_no) {
+        $student = Student::where('no', $student_no)->with('student_works')->first();
+
+        if ( $student )
+            return response()->json($student);
+        else
+            return response()->json("No data");
+    }
+
+    public function studentWorkNote($student_no, $work_no) {
+        $student = StudentWork::where('student_no', $student_no)->first();
+
+        if ( $student ) {
+            $student_note = StudentNote::where('work_no', $work_no)->first();
+            if ( $student_note ) {
+                return response()->json($student_note);
+            } else {
+                return response()->json("Ders notu henüz girilmemiş");
+            }
+        } else {
+            return response()->json("Böyle bir ders alan öğrenci yok.");
+        }
     }
 
     public function studentNote($student_no) {
@@ -79,4 +104,6 @@ class ApiController extends Controller
         $works = Work::all();
         return response()->json($works);
     }
+
+
 }

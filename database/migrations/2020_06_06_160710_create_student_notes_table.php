@@ -15,9 +15,9 @@ class CreateStudentNotesTable extends Migration
     {
         Schema::create('student_notes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('student_id');
-            $table->string('no');
-            $table->integer('work_id');
+            $table->string('student_no');
+            $table->string('student_notes_no');
+            $table->string('work_no');
 
             $table->float('exam');
             $table->float('final');

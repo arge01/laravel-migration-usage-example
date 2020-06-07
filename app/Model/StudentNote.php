@@ -9,6 +9,6 @@ class StudentNote extends Model
     protected $table = "student_notes";
 
     protected $fillable = [
-    	"student_id", "no", "exam", "final", "average", "task", "case", "work_id"
+    	"student_no", "no", "exam", "final", "average", "task", "case", "work_no"
     ];
 }
