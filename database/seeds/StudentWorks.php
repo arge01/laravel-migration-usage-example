@@ -1,5 +1,6 @@
 <?php
 
+use App\Model\StudentWork;
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
 
@@ -13,7 +14,19 @@ class StudentWorks extends Seeder
      */
     public function run(Faker $faker)
     {
-        $student = \App\Model\Student::find(1);
-        
+        $student_works = StudentWork::find(1);
+        $insert = DB::table("student_notes")->insert([
+            "student_no" => $student_works->student_no,
+            "student_notes_no" => $faker->creditCardNumber,
+            "exam"=>100,
+            "final"=>100,
+            "average"=>100,
+            "task"=>null,
+            "case"=>true,
+            "work_no"=>$student_works->work_no
+        ]);
+
+        print_r($insert);
+
     }
 }

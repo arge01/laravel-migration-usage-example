@@ -12,10 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
-        // $this->call(FakerStudents::class);
-        // $this->call(FacerStudentCard::class);
-        // $this->call(FakerWork::class);
-        // $this->call(FakerStudentWorks::class);
+        $this->call(FakerStudents::class);
+        $this->call(FacerStudentCard::class);
+        $this->call(FakerWork::class);
+        $this->call(FakerStudentWorks::class);
         $this->call(StudentWorks::class);
     }
 }
