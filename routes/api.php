@@ -25,7 +25,7 @@ Route::group(['prefix' => '/student', 'as' => 'student.', 'middleware' => 'cors'
     Route::post('/profile/{student_no}/work/{work_no}', 'ApiController@studentWorkNoteCreate')->name('student_note_create');
 });
 
-Route::group(['prefix' => '/work', 'as' => 'work.'], function() {
+Route::group(['prefix' => '/work', 'as' => 'work.', 'middleware' => 'cors'], function() {
     Route::get('/all', 'ApiController@allWorks')->name('all');
     Route::get('/{work_no}', 'ApiController@workCards')->name('work_card');
 });
