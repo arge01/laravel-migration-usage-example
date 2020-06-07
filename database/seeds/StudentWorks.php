@@ -25,6 +25,9 @@ class StudentWorks extends Seeder
             "case"=>true,
             "work_no"=>$student_works->work_no
         ];
+        echo "------";
+        echo "Example succesfull data";
+        echo "------";
         print_r($insert);
         DB::table("student_notes")->insert($insert);
     }
