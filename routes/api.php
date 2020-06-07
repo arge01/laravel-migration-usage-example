@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => '/student', 'as' => 'student.'], function() {
+Route::group(['prefix' => '/student', 'as' => 'student.', 'middleware' => 'cors'], function() {
     Route::get('/all', 'ApiController@allStudents')->name('all');
     Route::get('/profile/{student_no}', 'ApiController@studentCard')->name('student_card');
     Route::get('/profile/{student_no}/works', 'ApiController@studentWorks')->name('student_works');
