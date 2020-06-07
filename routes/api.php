@@ -28,4 +28,5 @@ Route::group(['prefix' => '/student', 'as' => 'student.'], function() {
 
 Route::group(['prefix' => '/work', 'as' => 'work.'], function() {
     Route::get('/all', 'ApiController@allWorks')->name('all');
+    Route::get('/{work_no}', 'ApiController@workCards')->name('work_card');
 });

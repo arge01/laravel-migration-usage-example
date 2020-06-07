@@ -95,5 +95,9 @@ class ApiController extends Controller
         return response()->json($works);
     }
 
-
+    public function workCards($work_no) {
+        $student_work = StudentWork::where("student_work", $work_no)->first();
+        $work = Work::where("no", $student_work->work_no)->first();
+        return response()->json($work);
+    }
 }
