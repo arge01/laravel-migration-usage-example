@@ -49,55 +49,45 @@ class ApiController extends Controller
         }
     }
 
-    public function studentNote($student_no) {
-    	$student_notes = Student::where('statu', 1)->where('no', $student_no)->with('student_notes')->first();
+    public function studentWorkNoteCreate($student_no, $work_no) {
+        $student_works = StudentWork::where('student_no', $student_no)->where('work_no', $work_no)->first();
 
-    	if ( $student_notes ) {
+        $insert = [
+            "student_no" => $student_works->student_no,
+            "student_notes_no" => request("student_notes_no"),
+            "exam" => request("exam"),
+            "final" => request("final"),
+            "average" => null,
+            "task" => request("task"),
+            "case" => null,
+            "work_no" => $student_works->student_work
+        ];
 
-    		if ( request()->isMethod('POST') ) {
-    			$data = [
-    				'student_id' => $student_notes->id,
-    				'no' => $student_notes->no,
-	                'exam' => request('exam'),
-	                'final' => request('final'),
-	                'task' => request('task'),
-	                'case' => request('case'),
-	                'average' => request('average'),
-	                'work_id' => 1
-	            ];
+        if ( !$insert["task"] )
+            $insert["average"] = ( $insert["exam"] * ( 30 / 100 ) ) + ( $insert["final"] * ( 70 / 100 ) );
+        else
+            $insert["average"] = ( $insert["exam"] * ( 30 / 100 ) ) + ( $insert["final"] * ( 50 / 100 ) ) + ( $insert["task"] * ( 20 / 100 ) );
 
-	            if ( !$data["task"] )
-	            	$data["average"] = ( $data["exam"] * ( 30 / 100 ) ) + ( $data["final"] * ( 70 / 100 ) );
-	            else
-	            	$data["average"] = ( $data["exam"] * ( 30 / 100 ) ) + ( $data["final"] * ( 50 / 100 ) ) + ( $data["task"] * ( 20 / 100 ) );
+        if ( $insert["average"] >= 45 )
+            $insert["case"] = 1;
+        else
+            $insert["case"] = 0;
 
-	           	if ( $data["average"] >= 45 )
-	           		$data["case"] = 1;
-	           	else
-	           		$data["case"] = 0;
+        $create = StudentNote::create($insert);
 
-	           	$create = StudentNote::create($data);
-
-	           	if ( $create ) {
-	           		return back()->with([
-		                'message' => 'Ekleme işlemi başarılı.',
-		                'status' => 'success',
-		                'data' => $create
-		            ]);
-	           	} else {
-	           		return back()->with([
-		                'message' => 'Ekleme işlemi başarısız oldu!',
-		                'status' => 'error',
-		                'data' => $data
-		            ]);
-	           	}
-
-    		} else {
-    			return response()->json($student_notes);
-    		}
-    	}
-    	else
-    		return response()->json("No data");
+        if ( $create ) {
+            return back()->with([
+                'message' => 'Ekleme işlemi başarılı.',
+                'status' => 'success',
+                'data' => $create
+            ]);
+        } else {
+            return back()->with([
+                'message' => 'Ekleme işlemi başarısız oldu!',
+                'status' => 'error',
+                'data' => $insert
+            ]);
+        }
     }
 
     public function allWorks() {
