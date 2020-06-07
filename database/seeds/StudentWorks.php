@@ -18,17 +18,19 @@ class StudentWorks extends Seeder
         $insert = [
             "student_no" => $student_works->student_no,
             "student_notes_no" => $faker->creditCardNumber,
-            "exam"=>100,
-            "final"=>100,
-            "average"=>100,
-            "task"=>null,
-            "case"=>true,
-            "work_no"=>$student_works->work_no
+            "exam" => 100,
+            "final" => 100,
+            "average" => 100,
+            "task" => null,
+            "case" => true,
+            "work_no" => $student_works->student_work,
+            "url" => "http://127.0.0.1:8000/api/student/profile/$student_works->student_no/work/$student_works->student_work"
         ];
         echo "------";
         echo "Example succesfull data";
         echo "------";
         print_r($insert);
+        unset($insert["url"]);
         DB::table("student_notes")->insert($insert);
     }
 }
