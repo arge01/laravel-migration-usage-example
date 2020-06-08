@@ -22,7 +22,7 @@ Route::group(['prefix' => '/student', 'as' => 'student.', 'middleware' => 'cors'
     Route::get('/profile/{student_no}', 'ApiController@studentCard')->name('student_card');
     Route::get('/profile/{student_no}/works', 'ApiController@studentWorks')->name('student_works');
     Route::get('/profile/{student_no}/work/{work_no}', 'ApiController@studentWorkNote')->name('student_note');
-    Route::post('/profile/{student_no}/work/{work_no}', 'ApiController@studentWorkNoteCreate')->name('student_note_create');
+    Route::match(["get", "post"], '/profile/work/create', 'ApiController@studentWorkNoteCreate')->name('student_note_create');
 });
 
 Route::group(['prefix' => '/work', 'as' => 'work.', 'middleware' => 'cors'], function() {
