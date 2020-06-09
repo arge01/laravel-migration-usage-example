@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Http\Middleware\Cors;
 use App\Model\StudentWork;
 use App\Model\Work;
-use Illuminate\Http\Request;
 use App\Model\Student;
 use App\Model\StudentNote;
 use App\Model\StudentCard;
@@ -53,50 +54,40 @@ class ApiController extends Controller
         $student_no = request()->header('student_no');
         $work_no = request()->header('work_no');
 
-        if ( request()->isMethod("POST") ) {
-            return $response = request()->all();
-            $student_works = StudentWork::where('student_no', $student_no)->where('student_work', $work_no)->first();
-            return response()->json( $student_works );
+        $student_works = StudentWork::where('student_no', $student_no)->where('student_work', $work_no)->first();
 
-            $insert = [
-                "student_no" => $student_works->student_no,
-                "student_notes_no" => request("student_notes_no"),
-                "exam" => request("exam"),
-                "final" => request("final"),
-                "average" => null,
-                "task" => request("task"),
-                "case" => null,
-                "work_no" => $student_works->student_work
-            ];
+        if (!$student_works)
+            return response()->json("No data");
 
-            if ( !$insert["task"] )
-                $insert["average"] = ( $insert["exam"] * ( 30 / 100 ) ) + ( $insert["final"] * ( 70 / 100 ) );
-            else
-                $insert["average"] = ( $insert["exam"] * ( 30 / 100 ) ) + ( $insert["final"] * ( 50 / 100 ) ) + ( $insert["task"] * ( 20 / 100 ) );
+        $insert = [
+            "student_no" => $student_works->student_no,
+            "student_notes_no" => request("student_notes_no"),
+            "exam" => request("exam"),
+            "final" => request("final"),
+            "average" => null,
+            "task" => request("task"),
+            "case" => null,
+            "work_no" => $student_works->student_work
+        ];
 
-            if ( $insert["average"] >= 45 )
-                $insert["case"] = 1;
-            else
-                $insert["case"] = 0;
+        if ( !$insert["task"] )
+            $insert["average"] = ( $insert["exam"] * ( 30 / 100 ) ) + ( $insert["final"] * ( 70 / 100 ) );
+        else
+            $insert["average"] = ( $insert["exam"] * ( 30 / 100 ) ) + ( $insert["final"] * ( 50 / 100 ) ) + ( $insert["task"] * ( 20 / 100 ) );
 
-            $create = StudentNote::create($insert);
+        if ( $insert["average"] >= 45 )
+            $insert["case"] = 1;
+        else
+            $insert["case"] = 0;
 
-            if ( $create ) {
-                return back()->with([
-                    'message' => 'Ekleme işlemi başarılı.',
-                    'status' => 'success',
-                    'data' => $create
-                ]);
-            } else {
-                return back()->with([
-                    'message' => 'Ekleme işlemi başarısız oldu!',
-                    'status' => 'error',
-                    'data' => $insert
-                ]);
-            }
+        $create = StudentNote::create($insert);
+
+        if ( $create ) {
+            return response()->json($create);
         } else {
-            return "Student No: $student_no Work No: $work_no";
+            return response()->json("Data kayıt edilemedi", $insert);
         }
+
     }
 
     public function allWorks() {
