@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(FacerStudentCard::class);
         $this->call(FakerWork::class);
         $this->call(FakerStudentWorks::class);
+        $this->call(AdminTableSeeder::class);
         $this->call(StudentWorks::class);
+        //php artisan passport:client --personal
     }
 }

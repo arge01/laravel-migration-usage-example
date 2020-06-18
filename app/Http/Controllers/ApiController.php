@@ -3,15 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Middleware\Cors;
 use App\Model\StudentWork;
 use App\Model\Work;
 use App\Model\Student;
 use App\Model\StudentNote;
 use App\Model\StudentCard;
+use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
+
+    public function login(Request $request) {
+        $login = $request->validate([
+            "email" => "required:string",
+            "password" => "required"
+        ]);
+
+        if ( !Auth::attempt( $login ) ) {
+            return response()->json([
+                "logged" => false,
+                "message" => "Kullanıcı adı veya şifre hatalı"
+            ]);
+        }
+        //return Auth::user();
+        $accessToken = Auth::user()->createToken('authToken')->accessToken;
+
+        return response([
+            "logged" => true,
+            "user" => Auth::user(),
+            "access_token" => $accessToken
+        ]);
+    }
+
     public function allStudents() {
     	$students = Student::where('statu', 1)->paginate(15);
     	return response()->json($students);
@@ -50,7 +74,7 @@ class ApiController extends Controller
         }
     }
 
-    public function studentWorkNoteCreate() {
+    public function studentWorkNoteCreate(Faker $faker) {
         $student_no = request()->header('student_no');
         $work_no = request()->header('work_no');
 
@@ -60,8 +84,8 @@ class ApiController extends Controller
             return response()->json("No data");
 
         $insert = [
+            "student_notes_no" => $faker->creditCardNumber,
             "student_no" => $student_works->student_no,
-            "student_notes_no" => request("student_notes_no"),
             "exam" => request("exam"),
             "final" => request("final"),
             "average" => null,
