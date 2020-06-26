@@ -29,7 +29,7 @@ class ApiController extends Controller
         //return Auth::user();
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
 
-        return response([
+        return response()->json([
             "logged" => true,
             "user" => Auth::user(),
             "access_token" => $accessToken
@@ -82,6 +82,8 @@ class ApiController extends Controller
 
         if (!$student_works)
             return response()->json("No data");
+
+        //return $student_works;
 
         $insert = [
             "student_notes_no" => $faker->creditCardNumber,
